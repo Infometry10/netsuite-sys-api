@@ -1,0 +1,14 @@
+http:
+  port: "8081"
+  
+  
+netsuite:
+  token_secret: "![fdKXX1ApkjAQIqLz3nbwKNIpnlfExid5L8zITq7UR15rDBHGkua8PwQcDpADglsk4sGeI1Fx8BG7N5l7QISnUKqgtHHYEYY0mn+/kdjIRg4=]"
+  consumer_secret: "![bRM5a4xJjev7hMcWbGRqdUVkjrx8NlkwUISFQo+qQmZfyselEsWcDLZeO7FsVr83MMozUBuMnoxDKjM9xd2QrrPrbYNzmJtbZ7cLu4jWGlU=]"
+  consumer_key: "27bcf0e1f3eeb708d96f1538f0c03661e609a19eb0facac1aec3715d6d9442e6"
+  token_id: "e6ca6ed55e61d4315de54e3e847299e5225304a86ed8783a370573da3a6de6e0"
+  account_id: "TSTDRV1611468"
+  
+  
+api.managerId: "18002772"
+ 

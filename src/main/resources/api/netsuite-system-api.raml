@@ -1,0 +1,27 @@
+#%RAML 1.0
+title: netsuite-sys-api
+
+
+traits:
+  client-id-required:
+    headers:
+      client_id:
+        type: string
+      client_secret:
+        type: string
+    responses:
+      401:
+        description: Unauthorized or invalid client application credentials
+      500:
+        description: Bad response from authorization server, or WSDL SOAP Fault error
+  errorResponse : !include /Traits/errortrait.raml
+
+/netsuite/search:
+   get:
+    is: [errorResponse,client-id-required]      
+    responses:
+      200:
+        body:
+          application/json:
+            examples:
+              output: !include /Examples/netsuite-search-example-response.json

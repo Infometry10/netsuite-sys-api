@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<flow name="netsuiteSearchFlow" doc:id="07aa8364-6b37-478a-8e66-a1daf1f72564" >
+		<ee:transform doc:name="search input payload" doc:id="09292c37-8b15-4a5c-9b2f-0a3c44942430" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0  urn:messages_2020_2.platform.webservices.netsuite.com
+ns ns01 urn:common_2020_2.platform.webservices.netsuite.com
+ns ns02 urn:core_2020_2.platform.webservices.netsuite.com
+ns xsi http://www.w3.org/2001/XMLSchema-instance
+---
+{
+	ns0#search: {
+		ns0#searchRecord @("xmlns:ns01": ns01, xsi#"type": "ns01:ItemSearchBasic"): {
+			ns01#created @(operator: attributes.queryParams.operator): {
+				ns02#searchValue: attributes.queryParams.time
+			}
+		}
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<netsuite:search doc:name="netsuite search" doc:id="8bafa2a1-470d-40b8-b9d4-6ed2ccd53e9c" config-ref="NetSuite_Config" key="#[attributes.queryParams.searchKey]"/>
+		<ee:transform doc:name="search output" doc:id="c2ac58de-d35a-4d5b-aacb-4a1bbdb5ae15" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

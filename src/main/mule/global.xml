@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	<netsuite:config name="NetSuite_Config" doc:name="NetSuite Config" doc:id="dcb2e435-cd82-4c1e-8700-303499c3026b" >
+		<netsuite:token-based-authentication-connection consumerKey="${secure::netsuite.consumer_key}" consumerSecret="${secure::netsuite.consumer_secret}" tokenId="${secure::netsuite.token_id}" tokenSecret="${secure::netsuite.token_secret}" account="${secure::netsuite.account_id}" wsdlVersion="V2020_2"/>
+	</netsuite:config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e7f79b0a-9de6-4522-838c-6ef25d03b993" >
+		<http:listener-connection host="0.0.0.0" port="${secure::http.port}" />
+	</http:listener-config>
+	<configuration doc:name="Configuration" doc:id="239217ee-4cfa-4464-b923-257a60f373d6" defaultErrorHandler-ref="common-error-handler" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="f7d9c28c-ce34-4552-b506-e35a82c7e03a" file="config\netsuite-system-api-${env}.yaml" key="${enc.key}" />
+	<api-gateway:autodiscovery apiId="${secure::api.managerId}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="9f07eef4-57ee-4871-bd95-3faebadf6ebe" flowRef="netsuite-system-api-main" />
+</mule>
